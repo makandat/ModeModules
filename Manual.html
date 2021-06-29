@@ -1,0 +1,415 @@
+<!doctype html>
+<html>
+<head>
+ <meta charset="utf-8" />
+ <title>Node.js Modules</title>
+ <link rel="stylesheet" href="/css/style.css" />
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.5/styles/vs.min.css">
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.5/highlight.min.js"></script>
+ <script>hljs.initHighlightingOnLoad();</script>
+ <style>
+  div.body {
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+  }
+  pre {
+    pad: 4px;
+    border: dotted thin darkred;
+  }
+ </style>
+ <script></script>
+</head>
+
+<body>
+  <div class="body">
+  <!-- HTML 本体 -->
+  <h1>Node.js Modules 1.1</h1>
+  <!-- メニュー -->
+  <div class="menubar"><a href="/">HOME</a></div>
+  <div class="section">
+  <h2>概要</h2>
+  <p>Node.js Modules は Express.js で動作する PictureAlbum とともに作成されたモジュールで、共用できるコードを共通化して、コーディングを楽にするために作成された。</p>
+  <p>構成を以下に示す。</p>
+  <ul>
+    <li>Common.js</li>
+    <li>DateTime.js</li>
+    <li>FileSystem.js</li>
+    <li>MySQL.js</li>
+  </ul>
+  <br />
+
+  <h2>リポジトリ</h2>
+  <p>GitHub のリポジトリは次の通りである。</p>
+  <blockquote>https://github.com/makandat/NodeModules</blockquote>
+  <br />
+
+  <h2>使用方法</h2>
+  <p>require によりロードして使用する。例えば、自分のコードと同じフォルダに MySQL.js を置いた場合は次のようにする。</p>
+  <pre>var mysql = require('./MySQL.js');</pre>
+  <br />
+
+
+  <h2>モジュールの説明</h2>
+  <h3>Common.js</h3>
+  <table style="width:98%;">
+    <tr><th>名前</th><th>引数</th><th>戻り値</th><th>説明</th></tr>
+    <tr><td>getArg</td><td>n: コマンドライン引数のインデックス</td><td>引数の値</td><td>最初のコマンドライン引数の位置を n = 0 とした場合、n の引数の値を得る。</td></tr>
+    <tr><td>getArgsCount</td><td>なし</td><td>引数の数</td><td>コマンドライン引数の数を返す。</td></tr>
+    <tr><td>isWindows</td><td>なし</td><td>OS が Windows なら true、それ以外なら false</td><td>OS が Windows かどうかを得る。</td></tr>
+    <tr><td>quit</td><td>code: プロセス終了コード。省略したときは 0<br />message: 終了時に表示する文字列。(省略可能)</td><td>なし</td><td>プログラムを打ち切る。</td></tr>
+    <tr><td>printf</td><td>format: 書式文字列<br />args: 値の並び (不定個数)</td><td>なし</td><td>値を書式化して表示する。</td></tr>
+    <tr><td>toInt</td><td>x: 整数に変換可能な文字列</td><td>BigInt</td><td>文字列を整数に変換する。</td></tr>
+    <tr><td>toStr</td><td>x: 数</td><td>文字列</td><td>数を文字列に変換する。</td></tr>
+    <tr><td>getType</td><td>x: 変数</td><td>文字列</td><td>変数の肩を文字列で返す。</td></tr>
+  <table>
+  <br />
+
+  <h3>DateTime.js</h3>
+  <table style="width:98%;">
+    <tr><th>名前</th><th>引数</th><th>戻り値</th><th>説明</th></tr>
+    <tr><td>getDateString</td><td>time: 日時。省略したときは現在とする。</td><td>年月日の文字列</td><td>指定された日時を yyyy-mm-dd 形式で返す。</td></tr>
+    <tr><td>getTimeString</td><td>time: 日時。省略したときは現在とする。</td><td>時刻の文字列</td><td>指定された時刻を hh:mm:ss 形式で返す。</td></tr>
+  <table>
+  <br />
+
+  <h3>FileSystem.js</h3>
+  <table style="width:98%;">
+    <tr><th>名前</th><th>引数</th><th>戻り値</th><th>説明</th></tr>
+    <tr><td>getFiles</td><td>dir: 検索対象のフォルダ<br />exts: 拡張子のリスト (例) [".jpg", ".png"]。null の場合はすべて。<br />callback: コールバック関数。引数はフルパスのファイル一覧配列。</td><td>なし</td><td>dir で指定したフォルダ内のファイル一覧を得る非同期関数。</td></tr>
+    <tr><td>getFiles_p</td><td>dir: 検索対象のフォルダ<br />exts: 拡張子のリスト (例) [".jpg", ".png"]。null の場合はすべて。</td><td>Promise(フルパスのファイル一覧配列)</td><td>dir で指定したフォルダ内のファイル一覧を得るプロミス関数。</td></tr>
+    <tr><td>getDirectories</td><td>dir: 検索対象のフォルダ<br />callback: コールバック関数。引数はフルパスのフォルダ一覧配列。</td><td>なし</td><td>dir で指定したフォルダ内のサブフォルダ一覧を得る非同期関数。</td></tr>
+    <tr><td>getDirectories_p</td><td>dir: 検索対象のフォルダ</td><td>Promise(dir で指定したフォルダ内のサブフォルダ一覧)</td><td>dir で指定したフォルダ内のサブフォルダ一覧を得るプロミス関数。</td></tr>
+    <tr><td>isDir</td><td>path: 検査対象のパス名<br />callback: コールバック関数。引数はpathがフォルダならtrue、そうでなければ false</td><td>なし</td><td>path がフォルダかどうかを調べる非同期関数。</td></tr>
+    <tr><td>isDirSync</td><td>path: 検査対象のパス名</td><td>pathがフォルダならtrue、そうでなければ false</td><td>path がフォルダかどうかを調べる同期関数。</td></tr>
+    <tr><td>isFile</td><td>path: 検査対象のパス名<br />callback: コールバック関数。引数はpathがファイルならtrue、そうでなければ false</td><td>なし</td><td>path がファイルかどうかを調べる非同期関数。</td></tr>
+    <tr><td>isFileSync</td><td>path: 検査対象のパス名</td><td>pathがファイルならtrue、そうでなければ false</td><td>path がファイルかどうかを調べる同期関数。</td></tr>
+    <tr><td>isLink</td><td>path: 検査対象のパス名<br />callback: コールバック関数。引数はpathがシンボリックリンクならtrue、そうでなければ false</td><td>なし</td><td>path がシンボリックリンクかどうかを調べる非同期関数。</td></tr>
+    <tr><td>isLinkSync</td><td>path: 検査対象のパス名</td><td>pathがシンボリックリンクならtrue、そうでなければ false</td><td>path がシンボリックリンクかどうかを調べる同期関数。</td></tr>
+    <tr><td>exists</td><td>path: 検査対象のパス</td><td>存在すれば true、そうでなければ false</td><td>パスが存在するかどうかを返す同期関数。</td></tr>
+    <tr><td>getSize</td><td>path: ファイルのパス名<br />callback: コールバック関数。引数はファイルサイズ。</td><td>なし</td><td>ファイルサイズを調べる非同期関数。</td></tr>
+    <tr><td>getSizeSync</td><td>path: ファイルのパス名</td><td>ファイルサイズ (BigInt)</td><td>ファイルサイズを調べる同期関数。</td></tr>
+    <tr><td>getDateTime</td><td>path: パス名<br />callback: コールバック関数。引数は日時。<br />optstr: true なら結果を文字列型で返し、false なら日付時刻型で返す。</td><td>なし</td><td>パスの対象の日時を調べる非同期関数。</td></tr>
+    <tr><td>getDateTimeSync</td><td>path: パス名<br />optstr: true なら結果を文字列型で返し、false なら日付時刻型で返す。</td><td>時刻</td><td>パスの対象の日時を調べる同期関数。</td></tr>
+    <tr><td>getExtension</td><td>path: パス名</td><td>パスのドットを含む拡張子部分</td><td>path の拡張子を返す同期関数。</td></tr>
+    <tr><td>getFileName</td><td>path: パス名</td><td>パスのファイル名部分</td><td>path のファイル名を返す同期関数。</td></tr>
+    <tr><td>getDirectory</td><td>path: パス名</td><td>パスのディレクトリ部分</td><td>path のディレクトリを返す同期関数。</td></tr>
+    <tr><td>getHome</td><td>なし</td><td>ホームディレクトリ</td><td>ホームディレクトリを返す同期関数。</td></tr>
+    <tr><td>getTemp</td><td>path: パス名</td><td>一時ディレクトリ</td><td>一時ディレクトリを返す同期関数。</td></tr>
+  <table>
+  <br />
+
+  <h3>MySQL.js</h3>
+  <p>(注意) mysql モジュールがインストールされている必要がある。</p>
+  <table style="width:98%;">
+    <tr><th>名前</th><th>引数</th><th>戻り値</th><th>説明</th></tr>
+    <tr><td>query</td><td>sql: SQL (SELECT)<br />callback: 結果を受け取るコールバック。引数はオブジェクトの配列。行がもうない場合は、null が返される。<br />conf: 接続情報(省略可能）</td><td>なし</td><td>SELECT クエリーを行う非同期関数。</td></tr>
+    <tr><td>query_p</td><td>sql: SQL (SELECT)<br />conf: 接続情報(省略可能）</td><td>Promise</td><td>SELECT クエリーを行うプロミス関数。</td></tr>
+    <tr><td>execute</td><td>sql: SQL (非SELECT)<br />callback: SQL が終了したときコールされるコールバック関数。引数は常に null なので省略してよい。</td><td>なし</td><td>非SELECT クエリーを実行する非同期関数。</td></tr>
+    <tr><td>execute_p</td><td>sql: SQL (非SELECT)</td><td>Promise</td><td>非SELECT クエリーを実行するプロミス関数。</td></tr>
+    <tr><td>getValue</td><td>sql: ただ 1 つの値を返す SELECT SQL<br />callback: スカラー値を結果として受けるとコールバック関数</td><td>なし</td><td>ただ一つの値を返すSELECTの結果を受け取る非同期関数。</td></tr>
+    <tr><td>getValue_p</td><td>sql: ただ 1 つの値を返す SELECT SQL</td><td>Promise</td><td>ただ一つの値を返すSELECTの結果を受け取るプロミス関数。</td></tr>
+    <tr><td>getRow</td><td>sql: ただ 1 行を返す SELECT SQL<br />callback: 1行を受け取るコールバック関数。</td><td>なし</td><td>ただ1行を返すSELECTの結果を受け取る非同期関数。</td></tr>
+  <t<tr><td>getRow_p</td><td>sql: ただ 1 行を返す SELECT SQL</td><td>Promise</td><td>ただ1行を返すSELECTの結果を受け取るプロミス関数。</td></tr>
+  <table>
+  <br />
+
+
+  <h2>サンプル</h2>
+  <h3>testCommon.js</h3>
+  <pre><code>
+/* testCommon.js  v1.1*/
+'use strict';
+
+var com = require("./Common.js");
+
+var n = com.getArgsCount();
+console.info("count = ", n, "\n");
+if (n == 0) {
+  Common.quit(9);
+}
+
+for (let i = 0; i &lt; n; i++) {
+  console.info(com.getArg(i));
+}
+
+var m = com.toInt(com.getArg(0));
+
+switch (m) {
+  case 1:
+    com.printf("%d %f %f\n", -100, 4.567, 981.0);
+    break;
+  case 2:
+    {
+       let n = com.toInt("1024");
+       console.log(n)
+    }
+  case 3:
+    {
+       let n = 1024;
+       console.log(com.toStr(n));
+    }
+    break;
+  case 4:
+    console.log(com.getType(1));
+    console.log(com.getType("1"));
+    console.log(com.getType(true));
+    console.log(com.getType(undefined));
+    break;
+  default:
+    com.quit(1, "Not supported.");
+    break;
+}
+
+console.info("Done.");
+
+  </code></pre>
+  <br />
+
+  <h3>testDateTime.js</h3>
+  <pre><code>
+'use strict';
+const datetime = require("./DateTime.js");
+
+console.log(datetime.getDateString());
+console.log(datetime.getTimeString());
+  </code></pre>
+  <br />
+
+  <h3>testFileSystem.js</h3>
+  <pre><code>
+/* testFileSystem.js  v1.1 */
+'use strict';
+const util = require('util');
+const fso = require('./FileSystem.js');
+const com = require('./Common.js');
+const os = require('os');
+
+if (com.isWindows()) {
+  com.quit(1, "Linux で実行してください。");
+}
+
+if (process.argv.length &lt; 3) {
+  console.error("テスト番号を指定してください。");
+  process.exit(9);
+}
+
+var no = parseInt(process.argv[process.argv.length - 1], 10);
+
+const callback_getFiles = (files) => {
+  for (let p of files) {
+    console.info(p);
+  }
+  console.info('Done.');
+}
+
+const callback_getDirectories = (dirs) => {
+  for (let d of dirs) {
+    console.info(d);
+  }
+  console.info('Done.');
+}
+
+const callback_isDir = (b) => {
+  console.info("isDir = " + b);
+}
+
+const callback_isFile = (b) => {
+  console.info("isFile = " + b);
+}
+
+const callback_getSize = (size) => {
+  console.info("size = ", size);
+}
+
+const callback_getDateTime = (dt) => {
+  console.info(dt);
+}
+
+const callback_getAttr = (mode) => {
+	console.info(util.format("%o", mode));
+}
+
+const callback_getAttrUnix = (mode) => {
+	console.info(mode);
+}
+
+/* テスト開始 */
+switch (no) {
+  case 1:
+    fso.getFiles('/home/user/bin', null, callback_getFiles);
+    break;
+
+  case 2:
+    fso.getDirectories('/home/user/workspace', callback_getDirectories);
+    break;
+
+  case 3:
+    fso.isDir("/usr/bin", callback_isDir);
+    fso.isDir("/usr/bin/bash", callback_isDir);
+    break;
+
+  case 4:
+    fso.isFile("/home/user/.bashrc", callback_isFile);
+    fso.isFile("/home/user", callback_isFile);
+    break;
+
+  case 5:
+    fso.getSize("/home/user/.bashrc", callback_getSize);
+    break;
+
+  case 6:
+    fso.getDateTime("/var/www/html/index.html", callback_getDateTime, true);
+    break;
+
+  case 7:
+    console.info(fso.getExtension("/usr/bin/bash"));
+    console.info(fso.getExtension("/usr/etc/host.conf"));
+    break;
+
+  case 8:
+    console.info(fso.getDirectory("/etc/apache2/mods-enabled/env.load"));
+    break;
+
+  case 9:
+    console.info(fso.getFileName("/etc/apache2/mods-enabled/env.load"));
+    break;
+
+  case 10:
+    fso.getAttr("/home/user/bin/rmcr", callback_getAttr);
+    break;
+
+  case 11:
+    fso.getAttr("/home/user/bin/rmcr", callback_getAttrUnix, true);
+    break;
+
+  case 12: {
+    let a = fso.getAttrSync("/home/user/bin/rmcr");
+    console.info(util.format("%o", a));
+    }
+    break;
+
+  case 13:  {
+    let a = fso.getAttrSync("/home/user/bin/rmcr", true);
+    console.info(a);
+    }
+    break;
+
+  case 14:  {
+    let a = fso.isLinkSync("/usr/bin/iconv");
+    let b = fso.isLinkSync("/usr/bin/vi");
+    console.info(a, b);
+    }
+    break;
+
+  default:
+    console.info("Not available. code=" + no);
+    break;
+}
+
+  </code></pre>
+  <br />
+
+  <h3>testMySQL.js</h3>
+  <pre><code>
+/* testMySQL.js  Promise plus バージョン */
+const mysql = require('./MySQL');
+const com = require('./Common');
+
+async function main(n) {
+  switch (n) {
+    case 1:  // Callback query
+      mysql.query('SELECT id, album, title FROM Videos WHERE id &lt; 100', (row, fields) => {
+        if (row != null) {
+          console.log(row.id, row.album, row.title);
+        }
+        else {
+          console.log("Done.");
+        }
+      });
+      break;
+    case 2: {  // Promise query
+      let res = await mysql.query_p('SELECT id, album, title FROM Videos WHERE id &lt; 100');
+      for (row of res) {
+        console.log(row.id, row.album, row.title);
+      }
+      com.quit();
+    }
+    break;
+    case 3:  // Callback execute
+      mysql.execute("UPDATE Videos SET title='UNDEFINED' WHERE id = 0", (error) => {
+        if (error == null) {
+          console.log("OK.");
+        }
+        else {
+          console.log(error.message);
+        }
+      });
+      break;
+    case 4: {  // Promise execute
+      // エラーハンドリングをする場合
+      await mysql.execute_p("UPDATE Videos SET title='UNDEFINED' WHERE id = 0")
+        .catch((err) => {
+          console.log(error.message);
+        })
+        .then((result) => {
+          console.log("OK.");
+        });
+      }
+      break;
+    case 5:  // Callback getValue
+      mysql.getValue("SELECT MAX(id) FROM Videos", (value) => {
+        console.log(value);
+      });
+      break;
+    case 6:  // Promise getValue
+      // エラーハンドリングをする場合
+      await mysql.getValue_p("SELECT MAX(id) FROM Videos")
+        .catch ((err) => { console.log(err.message); })
+        .then ((value) => { console.log(value); });
+      // エラーハンドリングをしない場合
+      let maxId = await mysql.getValue_p("SELECT MAX(id) FROM Videos");
+      console.log(maxId);
+      break;
+    case 7:  // Callback getRow
+      mysql.getRow("SELECT id, album, title FROM Videos WHERE id = 1000", (row) => {
+        console.log(row.id, row.album, row.title);
+      });
+      break;
+    case 8: {  // Promise getRow
+      // エラーハンドリングをする場合
+      await mysql.getRow_p("SELECT id, album, title FROM Videos WHERE id = 1000")
+        .catch ((err) => { console.log(err.message); })
+        .then ((row) => { console.log(row.id, row.album, row.title); });
+      // エラーハンドリングをしない場合
+      let row = await mysql.getRow_p("SELECT id, album, title FROM Videos WHERE id = 1000");
+      console.log(row.id, row.album, row.title);
+    }
+    break;
+    default:
+      com.quit(1, "エラー： テスト番号が間違っています。");
+      break;
+  }
+  console.info('Done');
+}
+
+/* Start */
+if (com.getArgsCount() == 0) {
+  com.quit(1, "エラー： テスト番号がありません。");
+}
+let n = com.toInt(com.getArg(0));
+main(n);
+
+  </code></pre>
+  <br />
+
+</div>
+
+ <!-- 本文終わり -->
+ </div>
+ <p>&nbsp;</p>
+ <p style="text-align:center;"><a href="#top">TOP</a></p>
+ <p>&nbsp;</p>
+ <p>&nbsp;</p>
+</body>
+</html>
