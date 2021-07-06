@@ -58,8 +58,13 @@ async function main(n) {
       console.log(maxId);
       break;
     case 7:  // Callback getRow
-      mysql.getRow("SELECT id, album, title FROM Videos WHERE id = 1000", (row) => {
-        console.log(row.id, row.album, row.title);
+      mysql.getRow("SELECT id, album, title FROM Videos WHERE id = 1000", (err, row) => {
+        if (err) {
+          console.log(err.message);
+        }
+        else {
+          console.log(row.id, row.album, row.title);
+        }
       });
       break;
     case 8: {  // Promise getRow

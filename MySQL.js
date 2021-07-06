@@ -143,11 +143,11 @@ exports.getRow = (sql, callback, conf = null) => {
   let conn = mysql.createConnection(conf);
   conn.query(sql, (error, results, fields)=>{
       if (error) {
-         callback(error);
+         callback(error, null);
          conn.end();
       }
       else {
-         callback(results[0], fields);
+         callback(null, results[0]);
          conn.end();
       }
   });
