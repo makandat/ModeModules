@@ -1,1 +1,2 @@
-"# ModeModules" 
+"# ModeModules"
+Manual.html éQè∆

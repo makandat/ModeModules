@@ -1,11 +1,9 @@
-/* FileSystem.js v1.1 */
+/* FileSystem.js v1.2 */
 'use strict';
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-if (os.platform() != 'win32') {
-  const { resolve } = require('path/posix');
-}
+
 
 
 /* (ローカル関数) ext が配列 exts の要素に含まれていれば true、そうでなければ false を返す。*/
@@ -25,21 +23,27 @@ function testExtension(ext, exts) {
 /*  callback はファイルパスの一覧(配列)を受け取るコールバック関数 */
 exports.getFiles = async (dir, exts, callback) => {
   let files = [];
-  let prom_items = await fs.promises.readdir(dir, {'withFileTypes': true});
-  for (let item of prom_items) {
-    let ext = path.extname(item.name);
-    if (exts == null) {
-      if (item.isFile()) {
-        files.push(path.join(dir, item.name));
-      }
+  fs.readdir(dir, {'withFileTypes': true}, (err, items) => {
+    if (err) {
+      callback(err.message);
     }
     else {
-      if (item.isFile() && testExtension(ext, exts)) {
-        files.push(path.join(dir, item.name));
-      }  
+      for (let item of items) {
+        let ext = path.extname(item.name);
+        if (exts == null) {
+          if (item.isFile()) {
+            files.push(path.join(dir, item.name));
+          }
+        }
+        else {
+          if (item.isFile() && testExtension(ext, exts)) {
+            files.push(path.join(dir, item.name));
+          }  
+        }
+      }
+      callback(files);    
     }
-  }
-  callback(files);
+  });
 }
 
 /* フォルダ内のファイル一覧を得る。*/
@@ -69,15 +73,21 @@ exports.getFiles_p = async (dir, exts) => {
 /* フォルダ内のサブディレクトリ一覧を得る。*/
 /*  dir は対象のディレクトリ */
 /*  callback はディレクトリパスの一覧(配列)を受け取るコールバック関数 */
-exports.getDirectories = async (dir, callback) => {
+exports.getDirectories = (dir, callback) => {
   let dirs = [];
-  let prom_items = await fs.promises.readdir(dir, {'withFileTypes': true});
-  for (let item of prom_items) {
-    if (item.isDirectory()) {
-      dirs.push(path.join(dir, item.name));
+  fs.readdir(dir, {'withFileTypes': true}, (err, items) => {
+    if (err) {
+      callback(err.message);
     }
-  }
-  callback(dirs);
+    else {
+      for (let item of items) {
+        if (item.isDirectory()) {
+          dirs.push(path.join(dir, item.name));
+        }
+      }
+      callback(dirs); 
+    }
+  });
 }
 
 /* フォルダ内のサブディレクトリ一覧を得る。*/
