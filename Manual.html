@@ -24,7 +24,7 @@
 <body>
   <div class="body">
   <!-- HTML 本体 -->
-  <h1>Node.js Modules 1.1</h1>
+  <h1>Node.js Modules 1.3</h1>
   <!-- メニュー -->
   <div class="menubar"><a href="/">HOME</a></div>
   <div class="section">
@@ -80,12 +80,15 @@
     <tr><td>getFiles_p</td><td>dir: 検索対象のフォルダ<br />exts: 拡張子のリスト (例) [".jpg", ".png"]。null の場合はすべて。</td><td>Promise(フルパスのファイル一覧配列)</td><td>dir で指定したフォルダ内のファイル一覧を得るプロミス関数。</td></tr>
     <tr><td>getDirectories</td><td>dir: 検索対象のフォルダ<br />callback: コールバック関数。引数はフルパスのフォルダ一覧配列。</td><td>なし</td><td>dir で指定したフォルダ内のサブフォルダ一覧を得る非同期関数。</td></tr>
     <tr><td>getDirectories_p</td><td>dir: 検索対象のフォルダ</td><td>Promise(dir で指定したフォルダ内のサブフォルダ一覧)</td><td>dir で指定したフォルダ内のサブフォルダ一覧を得るプロミス関数。</td></tr>
+    <tr><td>getSymLinks</td><td>dir: 検索対象のフォルダ<br />callback: コールバック関数。引数はフルパスのSymbolicリンク一覧配列。</td><td>なし</td><td>dir で指定したフォルダ内のSymbolicリンク一覧を得る非同期関数。</td></tr>
+    <tr><td>getSymLinks_p</td><td>dir: 検索対象のフォルダ</td><td>Promise(dir で指定したフォルダ内のSymbolicリンク一覧)</td><td>dir で指定したフォルダ内のSymbolicリンク一覧を得るプロミス関数。</td></tr>
     <tr><td>isDir</td><td>path: 検査対象のパス名<br />callback: コールバック関数。引数はpathがフォルダならtrue、そうでなければ false</td><td>なし</td><td>path がフォルダかどうかを調べる非同期関数。</td></tr>
     <tr><td>isDirSync</td><td>path: 検査対象のパス名</td><td>pathがフォルダならtrue、そうでなければ false</td><td>path がフォルダかどうかを調べる同期関数。</td></tr>
     <tr><td>isFile</td><td>path: 検査対象のパス名<br />callback: コールバック関数。引数はpathがファイルならtrue、そうでなければ false</td><td>なし</td><td>path がファイルかどうかを調べる非同期関数。</td></tr>
     <tr><td>isFileSync</td><td>path: 検査対象のパス名</td><td>pathがファイルならtrue、そうでなければ false</td><td>path がファイルかどうかを調べる同期関数。</td></tr>
     <tr><td>isLink</td><td>path: 検査対象のパス名<br />callback: コールバック関数。引数はpathがシンボリックリンクならtrue、そうでなければ false</td><td>なし</td><td>path がシンボリックリンクかどうかを調べる非同期関数。</td></tr>
     <tr><td>isLinkSync</td><td>path: 検査対象のパス名</td><td>pathがシンボリックリンクならtrue、そうでなければ false</td><td>path がシンボリックリンクかどうかを調べる同期関数。</td></tr>
+    <tr><td>getLinkValue</td><td>path: パス名</td><td>path(シンボリックリンク)のリンク先を得る</td><td>path のリンク先を返す関数。</td></tr>
     <tr><td>exists</td><td>path: 検査対象のパス</td><td>存在すれば true、そうでなければ false</td><td>パスが存在するかどうかを返す同期関数。</td></tr>
     <tr><td>getSize</td><td>path: ファイルのパス名<br />callback: コールバック関数。引数はファイルサイズ。</td><td>なし</td><td>ファイルサイズを調べる非同期関数。</td></tr>
     <tr><td>getSizeSync</td><td>path: ファイルのパス名</td><td>ファイルサイズ (BigInt)</td><td>ファイルサイズを調べる同期関数。</td></tr>
