@@ -82,6 +82,8 @@
     <tr><td>getDirectories_p</td><td>dir: 検索対象のフォルダ</td><td>Promise(dir で指定したフォルダ内のサブフォルダ一覧)</td><td>dir で指定したフォルダ内のサブフォルダ一覧を得るプロミス関数。</td></tr>
     <tr><td>getSymLinks</td><td>dir: 検索対象のフォルダ<br />callback: コールバック関数。引数はフルパスのSymbolicリンク一覧配列。</td><td>なし</td><td>dir で指定したフォルダ内のSymbolicリンク一覧を得る非同期関数。</td></tr>
     <tr><td>getSymLinks_p</td><td>dir: 検索対象のフォルダ</td><td>Promise(dir で指定したフォルダ内のSymbolicリンク一覧)</td><td>dir で指定したフォルダ内のSymbolicリンク一覧を得るプロミス関数。</td></tr>
+    <tr><td>getSymLinks_p</td><td>dir: 検索対象のフォルダ</td><td>Promise(dir で指定したフォルダ内のSymbolicリンク一覧)</td><td>dir で指定したフォルダ内のSymbolicリンク一覧を得るプロミス関数。</td></tr>
+    <tr><td>readdirRecursively</td><td>dir: 検索対象のフォルダ<br />files: それまでに見つかったファイル一覧配列</td><td>Promise(再帰的に見つかったファイル一覧)</td><td>dir で指定したフォルダ内を再帰的に検索してファイル一覧を得るプロミス関数。</td></tr>
     <tr><td>isDir</td><td>path: 検査対象のパス名<br />callback: コールバック関数。引数はpathがフォルダならtrue、そうでなければ false</td><td>なし</td><td>path がフォルダかどうかを調べる非同期関数。</td></tr>
     <tr><td>isDirSync</td><td>path: 検査対象のパス名</td><td>pathがフォルダならtrue、そうでなければ false</td><td>path がフォルダかどうかを調べる同期関数。</td></tr>
     <tr><td>isFile</td><td>path: 検査対象のパス名<br />callback: コールバック関数。引数はpathがファイルならtrue、そうでなければ false</td><td>なし</td><td>path がファイルかどうかを調べる非同期関数。</td></tr>
